@@ -6,16 +6,16 @@ export default class MeterController {
   static async on(req, res) {
     let clientTokenUpdate;
 
-    awsService.thingShadows.register('USER_METER', {}, async () => {
+    awsService.thingShadows.register('my-raspberry-01', {}, async () => {
       const userMeterState = {
         state: {
           desired: {
-            status: 'ON',
+            status: 'ON-hai',
           },
         },
       };
       clientTokenUpdate = awsService.thingShadows.update(
-        'USER_METER',
+        'my-raspberry-01',
         userMeterState
       );
 
@@ -34,6 +34,17 @@ export default class MeterController {
   }
 
   static async off(req, res) {
+    const userMeterState = {
+      state: {
+        desired: {
+          status: 'OFF',
+        },
+      },
+    };
+   awsService.thingShadows.update(
+      'my-raspberry-01',
+      userMeterState
+    );
     awsService.thingShadows.end();
     return res.status(200).json({
       status: true,
